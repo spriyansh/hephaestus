@@ -164,36 +164,46 @@ make_volcano <- function(df_vol){
 # Function to Make Heatmap
 make_heatmap <- function(df, edf){
   
-  # Data wrnagling
-  e <- tibble::rownames_to_column(edf, "ID")
+  # Data wrangling
+  #e <- tibble::rownames_to_column(edf, "ID")
+  edf$ID <- rownames(edf)
+  print(head(edf,3))
   
   # Selecting ID
   d <- as.data.frame(df[, c("ID")])
   colnames(d) <- "ID"
+  print(head(d,3))
   
   # Unfolding the DataFrame
   d <- as.data.frame(d %>% separate_rows(ID, sep = " | "))
   colnames(d) <- "ID"
+  print(head(d,3))
   
   # Removing pipe strings
   d <- as.data.frame(d[d$ID != "|",])
   colnames(d) <- "ID"
+  print(head(d,3))
   
   # merge
-  h_df <- merge(e, d, by = "ID")
+  h_df <- merge(edf, d, by = "ID")
+  print(head(h_df,3))
   
-  # Savong for plotting
+  # Saving for plotting
   probes <- h_df$ID
+  print(probes)
   
   # Converting to DF
   h_df <- as.data.frame(h_df[, -1])
+  print(head(d,3))
   
   # Matrix conversion
   data <- as.matrix(h_df)
+  print(head(data,3))
   
   # Heatmap
-  htmap <- plot_ly(x=colnames(data), y=probes, z = data, type = "heatmap", 
-               colorscale= "YlGnBu", showscale = T) %>% layout(margin = list(l=120))
+  htmap <- plot_ly(x=colnames(data), #y=probes,
+                   z = data, type = "heatmap", 
+               colorscale= "YlGnBu") %>% layout(margin = list(l=120))
   
   # Passing Plot
   htmap
