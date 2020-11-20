@@ -1,5 +1,8 @@
 # Hephaestus
-__Shiny Platform for Micro-array data analysis__
+_(Fetch! Analyze! Visualize!)_
+__Shiny Platform for Next-Gen data analysis__
+
+---
 
 ### Description
 
@@ -11,6 +14,6 @@ Hephaestus is the Greek god of blacksmiths, metalworking, carpenters, craftsmen,
 ### Salient Features
 - It fetches the datasets directly from the __Gene Expression Omnibus__ with a few clicks.
 - It can be used to make publication-ready plots like Volcanos, Heatmaps, correlation networks and MDs.
-- Additionally, a user can run differential expression pipelines using R’s limma library.
+- Additionally, a user can run differential expression pipelines for microarray using R’s limma library.
 - Hephaestus runs on all the major data formats like CSV, TSV, MS Excel (.docx).
 
