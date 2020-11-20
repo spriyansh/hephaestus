@@ -1,5 +1,4 @@
 # Hephaestus
-_(Fetch! Analyze! Visualize!)_
 __Shiny Platform for Next-Gen data analysis__
 
 ---
