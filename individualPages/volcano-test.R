@@ -62,15 +62,19 @@ ui <- fluidPage(theme = shinytheme("united"),
                                       # Slider for Fold change
                                       fluidRow(tags$h5("Step 3: Adjust Fold change"),
                                                sliderInput("fC", "Slide to adjust",
-                                                           min = 0, max = 1.5, value = 1))
+                                                           min = 0, max = 1.5, value = 1)),
+                                      
+                                      # Download 
+                                      fluidRow(downloadButton("downloadVolcano"), 
+                                               align = "center"),
+                                      
                                     ), # side-panel close
                                     
-                                    mainPanel(# main panel begins
+                                    # main panel begins
+                                    mainPanel(
                                       
                                       # Interactive table display
-                                      
                                       DT::dataTableOutput("contents"),
-                                      tags$h5("Scroll to see the volcano plot"),
                                       
                                       # Number of DEGs
                                       tags$h6("Number of differential genes"),
@@ -79,10 +83,8 @@ ui <- fluidPage(theme = shinytheme("united"),
                                     ) # Main panel close   
                            )), # Tab-panel close
                            fluidRow(
-                            
-                             # Volcano plot
                              plotOutput("volcano")
-                           )
+                           ) # fluidRow closed
                 ) # nav-bar close
 ) # fluid-page close
 
@@ -93,7 +95,7 @@ server <- function(input, output) {
   output$sampleDownload <- downloadHandler(
     
     # Defining file name
-    filename = function() { "sample.csv"},
+    filename = function() {"sample.csv"},
     
     # fetch and write the file
     content = function(file) {
@@ -134,6 +136,7 @@ server <- function(input, output) {
     # Dynamic input
     df <- data()
     
+    # p-values and log fold change
     sig <- df[df$adj.P.Val <= input$pValue & abs(df$logFC) >= input$fC, ]
     
     # Plotting the volcano
@@ -169,6 +172,33 @@ server <- function(input, output) {
     
   })
   
+  # Plot volcano
+  output$downloadVolcano <- downloadHandler(
+    
+    # filename
+    filename =  function() {"Volcano.png"},
+    
+    # content is a function with argument file. content writes the plot to the device
+    content = function(file) {
+      
+      # Checks
+      req(data())
+      df <- data()
+      
+      # turn on device
+      png(file)
+      
+      # Plotting
+      sig <- df[df$adj.P.Val <= input$pValue & abs(df$logFC) >= input$fC, ]
+      plot(df$logFC, -log10(df$adj.P.Val), pch="*", 
+      main = paste("Volcano Plot (FC: ",input$fC, "; P-value: ", input$pValue, ")"),
+      xlab="Log2 Fold Change", ylab = "-10log (adjusted p-value)")
+      abline(h=-log10(input$pValue), v=c(-input$fC, input$fC), col="red", lty=2)
+      points(sig$logFC, -log10(sig$adj.P.Val), col="red", pch="*")
+      
+      # turn the device off
+      dev.off()
+      } )
 }
 
 # Run the application 
