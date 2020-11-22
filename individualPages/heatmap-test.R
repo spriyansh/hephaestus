@@ -9,6 +9,9 @@
 # Shiny base
 library(shiny)
 
+# Heatmap
+library(pheatmap)
+
 # For web app theme
 library(shinythemes)
 
@@ -64,13 +67,15 @@ ui <- fluidPage(theme = shinytheme("united"),
                              mainPanel(
                                
                                # Interactive table display
-                               DT::dataTableOutput("contents")
+                               DT::dataTableOutput("contents"),
                                
-                             ) # Main panel close   
-                           )), # Tab-panel close
-                           fluidRow(
-                             plotOutput("heatmap")
-                           ) # fluidRow closed
+                               # Heatmap
+                               plotOutput("heatmap")
+                               
+                             ) # Main panel close
+                             
+                           )) # Tab-panel close
+                           
                 ) # nav-bar close
 ) # fluid-page close
 
@@ -129,8 +134,9 @@ server <- function(input, output) {
     df <- df[,-1]
     
     # Making heatmap
-    heatmap(as.matrix(df))
-    
+    pheatmap(as.matrix(df), cellwidth = 80, 
+             show_rownames = FALSE,
+             scale = "row",angle_col = 45)
   })
   
   # Plot volcano
@@ -147,10 +153,12 @@ server <- function(input, output) {
       df <- data()
       
       # turn on device
-      png(file)
+      png(file, height = 17000, width = 30000)
       rownames(df) <- df$Id
       df <- df[,-1]
-      heatmap(as.matrix(df))
+      pheatmap(as.matrix(df), cellwidth = 800,cellheight = 10, 
+               #show_rownames = FALSE,
+               scale = "row")
       
       # turn off device
       dev.off()
