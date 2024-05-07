@@ -10,8 +10,8 @@ library(plotly)
 library(ggplot2)
 
 # Calling Scripts with functions
-source('serverFunctions/fetchData.R', local = TRUE)
-source('serverFunctions/degs.R', local = TRUE)
+source('old/serverFunctions/fetchData.R', local = TRUE)
+source('old/serverFunctions/degs.R', local = TRUE)
 
 # Server Function
 Main_Server <- function(input,output,session){

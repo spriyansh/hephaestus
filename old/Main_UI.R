@@ -7,8 +7,8 @@ library("plotly")
 
 
 # Calling Scripts with functions
-source('uiFunctions/dataFerry.R', local = TRUE)
-source('uiFunctions/degLimma.R', local = TRUE)
+source('old/uiFunctions/dataFerry.R', local = TRUE)
+source('old/uiFunctions/degLimma.R', local = TRUE)
 
 Main_UI <- shinyUI({
   fluidPage(theme = shinytheme("flatly"),# fluidPage-cont
