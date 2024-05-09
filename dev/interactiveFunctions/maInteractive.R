@@ -12,30 +12,35 @@
 # Library
 library(plotly)
 
-# Reading Dataset 
+# Reading Dataset
 difExpGen <- read.csv("datasets/differentiallyExpressedGenes.csv")
 
 # Okabe-Ito's
 pal <- "#56B4E9"
 
 # Designing
-maPlotly <- plot_ly(data = difExpGen,
-                         x = ~AveExpr, y = ~logFC, 
-                         colors = pal, type = 'scatter', mode = 'markers',
-                         alpha = 0.4,  hoverinfo = "text",
-                         text = ~SYMBOL, hovertemplate = paste(
-                           "<b>%{text}</b><br>",
-                           "%{yaxis.title.text}: %{y}<br>",
-                           "%{xaxis.title.text}: %{x}<br>",
-                           "<extra></extra>"))
+maPlotly <- plot_ly(
+  data = difExpGen,
+  x = ~AveExpr, y = ~logFC,
+  colors = pal, type = "scatter", mode = "markers",
+  alpha = 0.4, hoverinfo = "text",
+  text = ~SYMBOL, hovertemplate = paste(
+    "<b>%{text}</b><br>",
+    "%{yaxis.title.text}: %{y}<br>",
+    "%{xaxis.title.text}: %{x}<br>",
+    "<extra></extra>"
+  )
+)
 
 # Correcting axis-labels
-maPlotly <- maPlotly %>% layout(xaxis = list(title_text = "AveExpr"), 
-                                showlegend = FALSE,
-                                yaxis = list(title = "logFC"))
+maPlotly <- maPlotly %>% layout(
+  xaxis = list(title_text = "AveExpr"),
+  showlegend = FALSE,
+  yaxis = list(title = "logFC")
+)
 
 # Removing Display bar
-maPlotly <- maPlotly  %>% config(displayModeBar = F)
+maPlotly <- maPlotly %>% config(displayModeBar = F)
 
 # Plot
 maPlotly

@@ -17,15 +17,17 @@ library(ggplot2)
 library(plotly)
 options(ggrepel.max.overlaps = Inf)
 
-# Reading Dataset 
+# Reading Dataset
 longExpSet <- read.csv("datasets/boxDataset.csv")
 
 # Making color palette
 pal <- c("#009E73", "#D55E00")
 
 # Designing plot
-interactiveBoix <- plot_ly(longExpSet, x = ~Sample, y = ~Expression, color = ~Group, type = "box",
-                           colors = pal)
+interactiveBoix <- plot_ly(longExpSet,
+  x = ~Sample, y = ~Expression, color = ~Group, type = "box",
+  colors = pal
+)
 # Hiding the bar
 interactiveBoix <- interactiveBoix %>% config(displayModeBar = F)
 
